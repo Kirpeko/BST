@@ -84,12 +84,14 @@ button_submit.addEventListener("click", function(){
 button_finish.addEventListener("click", function(){
     single_number.splice(1, single_number.length);
     console.log(number_list);
-    return number_list;
-
+    let form = document.createElement("form");
+    form.hidden=true;
+    form.method="POST";
+    form.action="/";
+    let input = document.createElement("input");
+    input.name="numbers";
+    input.value=JSON.stringify(number_list);
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
 });
-
-
-/*\ Exports \*/
-if(module){
-    module.exports = {number_list}
-};

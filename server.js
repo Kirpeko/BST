@@ -4,7 +4,6 @@
 const express = require("express");
 const path = require("path");
 const treeify = require("treeify");
-const numberList = require("./Buttons.js");
 
 const theport = 4009; //  Setup port
 
@@ -18,6 +17,17 @@ app.use(express.urlencoded({
 app.get("/", function(req, res){
     res.sendFile(path.join(__dirname, 'BST.html'))
 });
+
+app.post("/", function(req, res) {
+    nums = req.body.numbers
+    num_list = JSON.parse(nums)
+    const oak = new Tree();
+    for (let n = 0; n < num_list.length; n++) {
+        oak.insert(num_list[n]);
+    }
+    res.send(JSON.stringify(oak, true, "<br>" ));
+    console.log(treeify.asTree(oak, true));
+})
 
 app.use(express.static(path.join(__dirname, '/')));
 
@@ -44,7 +54,7 @@ class Tree {
             }else if(value > node.value) {
                 node.right = recursion(node.right);
             }else{
-                throw new Error("Cannot be equal You!")
+                throw new Error("Cannot be equal, try again please!")
             }
             
             if(nodeBalance(node) > 1) {
@@ -112,5 +122,6 @@ app.listen(theport, () => {
 });
 
 module.exports = {
-  Tree
+    Node,
+    Tree
 }
