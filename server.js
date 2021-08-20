@@ -9,6 +9,9 @@ const theport = 4009; //  Setup port
 
 const app = express(); // Express app setup
 
+
+/*\ MIddleWare \*/
+
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
@@ -18,15 +21,20 @@ app.get("/", function(req, res){
     res.sendFile(path.join(__dirname, 'BST.html'))
 });
 
-app.post("/", function(req, res) {
-    nums = req.body.numbers
+app.post("/", async function(req, res) {
+    nums = await req.body.numbers
     num_list = JSON.parse(nums)
+    console.log(num_list);
     const oak = new Tree();
-    for (let n = 0; n < num_list.length; n++) {
-        oak.insert(num_list[n]);
+    try{
+        for (let n = 0; n < num_list.length; n++) {
+            oak.insert(num_list[n]);
+        }
+    }catch{
+        console.error("Me no work >:(")
     }
-    res.send(JSON.stringify(oak, true, "<br>" ));
     console.log(treeify.asTree(oak, true));
+    res.send(`<pre>${treeify.asTree(oak, true)}</pre>`)
 })
 
 app.use(express.static(path.join(__dirname, '/')));
