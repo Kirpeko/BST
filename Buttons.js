@@ -90,6 +90,7 @@ button_finish.addEventListener("click", function(){
     form.action="/";
     let input = document.createElement("input");
     input.name="numbers";
+    input.id="numbers"
     input.value=JSON.stringify(number_list);
     form.appendChild(input);
     document.body.appendChild(form);
